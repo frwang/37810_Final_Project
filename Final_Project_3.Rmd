@@ -128,4 +128,4 @@ Accuracy = sum(r4 == true_cat)/length(r4)
 print(paste("the accuracy of scale data is ", Accuracy))
 ```
 
-For this data, both scale and non-scale data has very low accuracy, which means that K-means might not work well for classifying this dataset, and the scale does NOT help.
+For this data, both scale and non-scale data has very low accuracy, which means that K-means might NOT work well for classifying this dataset, and the scale does NOT help.

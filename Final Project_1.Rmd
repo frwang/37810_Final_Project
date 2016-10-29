@@ -60,8 +60,7 @@ lines(grid,beta_density)
 ```
 
 ### Comparision
-In the histogram plot, I change the histogram from frequency to density and also add the true beta(6,4) density line in the graph. It seems that the generated samples follow a beta distribution. The following graph shows the true beta distribution with emprical
-density.
+In the histogram plot, I change the histogram from frequency to density and also add the true beta(6,4) density line in the graph. It seems that the generated samples follow a beta distribution. The following graph shows the true beta distribution with emprical density.
 
 ```{r, warning = FALSE}
 x = rbeta(iter, 6, 4)
