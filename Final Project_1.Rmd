@@ -2,7 +2,7 @@
 title: "Final Project Part 1"
 author: "Feng Wang"
 date: "October 25, 2016"
-output: pdf_document
+output: html_document
 ---
 
 # Metropolis-Hastings

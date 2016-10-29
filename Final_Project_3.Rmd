@@ -2,7 +2,7 @@
 title: "Final Project Part 3"
 author: "Feng Wang"
 date: "October 27, 2016"
-output: pdf_document
+output: html_document
 ---
 ```{r,results='hide', message=FALSE, warning=FALSE}
 library('rattle')
