@@ -101,7 +101,7 @@ Accuracy = sum(r2 == wine[1])/length(r2)
 print(paste("the Accuracy for scale data is ", Accuracy))
 ```
 The scale data has a highly accuracy (>90%) after the clustering, and three clusters in the graph also separate thoroughly.   
-The reason is that for the non-scale data, some variable may much larger than the others, and it will dominate the error when doing the K-means.But this problem could be solved using scale data.
+The reason is that for the non-scale data, some variable may much larger than the others, and it will dominate the error when doing the K-means. But this problem could be solved using scale data.
 \pagebreak
 
 # 3. Iris data
@@ -114,7 +114,18 @@ true_cat = as.numeric(factor(true_cat$Species, levels = sort(unique(true_cat$Spe
 ```{r}
 r3 = K_means(data.train,k)
 plotcluster(data.train,r3)
+Accuracy = sum(r3 == true_cat)/length(r3)
+print(paste("the accuracy of non-scale data is ", Accuracy))
+```
+\pagebreak
+
+## Train data with scale
+```{r}
+data.train = scale(data.matrix(iris[1:4])) 
+r4 = K_means(data.train,k)
+plotcluster(data.train,r4)
+Accuracy = sum(r4 == true_cat)/length(r4)
+print(paste("the accuracy of scale data is ", Accuracy))
 ```
 
-
-
+For this data, both scale and non-scale data has very low accuracy, which means that K-means might not work well for classifying this dataset, and the scale does NOT help.
