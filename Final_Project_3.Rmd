@@ -11,16 +11,16 @@ data(wine, package="rattle")
 ```
 # 1. Algorithm and function
 ## Algorithm
-a. Randomly assigned three clusters means
-b. Decide each data should belong in which cluster  
+1. Randomly assigned three clusters means
+2. Decide each data should belong in which cluster  
 Compute the distance between one data with all means, and the data should belong in the cluster with the least distance.  
-c. Compute the objection function
+3. Compute the objection function
 $$ J = \sum_{n=1}^{N} \sum_{k=1}^{K} r_{nk} \|x_{n}-\mu_{k}\|^2$$
-d. Now change the means for different cluster
+4. Change the means for different cluster
 Since all the data has changed their cluster, for each cluster mean, it also need to update.  
 $$ \mu_{k}=\frac{\sum_{n}r_{nk}x_{n}}{\sum_{n}r_{nk}} $$
-e. Then compute the objection function again
-f. start again from step b, until the J is stable
+5. Compute the objection function again
+6. Start again from step b, until the J is stable
 
 ## Main function
 ```{r}
@@ -36,7 +36,7 @@ K_means = function(X, k){
   # clusting error
   J = function(X, mu, n, r){
     s = 0
-    for(i in 1:n){s = s + sum((X[i,] - mu[r[i],])^2)}
+    for(i in 1:n){s = s + sum((X[i,] - mu[r[i],]) ^ 2)}
     return(s)
   }
   # mu_adj function compute each cluster means
@@ -50,25 +50,26 @@ K_means = function(X, k){
   # Main function
   # Compute the first two steps
   n = dim(X)[1]; mu_start = X[1:k,]
-  r_start=group(mu_start,X,n)
-  Iter=0
-  j_dm=J(X,mu_start,n,r_start)
-  mu=mu_adj(r_start,X,k)
-  Iter=1
-  j_dm = c(j_dm,J(X,mu,n,r_start))
-  r=group(mu,X,n)
+  r_start = group(mu_start, X, n)
+  Iter = 0
+  j_dm=J(X,mu_start, n, r_start)
+  mu = mu_adj(r_start, X, k)
+  Iter = 1
+  j_dm = c(j_dm,J(X, mu, n, r_start))
+  r = group(mu, X, n)
   Iter = 2
   
   # Use the while loops to do the K-means, and stop when J keeps the same 
-  while(abs(j_dm[Iter]-j_dm[Iter-1])!=0){
-      mu=mu_adj(r,X,k)
-      Iter=Iter+1
-      j_dm=c(j_dm,J(X,mu,n,r))
+  while(abs(j_dm[Iter] - j_dm[Iter-1]) != 0){
+      mu = mu_adj(r, X, k)
+      Iter = Iter + 1
+      j_dm = c(j_dm, J(X, mu, n, r))
     
-      r=group(mu,X,n)
-      Iter=Iter+1
-      j_dm=c(j_dm,J(X,mu,n,r))
+      r = group(mu, X, n)
+      Iter = Iter + 1
+      j_dm = c(j_dm, J(X, mu, n, r))
   }
+  plot(j_dm, type = "l", xlab = "Iteration", ylab = "Objection function")
   return(r)
 }
 ```
@@ -78,7 +79,8 @@ K_means = function(X, k){
 ## Train data without scale  
 ```{r}
 data.train = data.matrix(wine[-1]); k = 3
-r1 = K_means(data.train,k)
+par(mfrow = c(1, 2)) 
+r1 = K_means(data.train, k)
 plotcluster(data.train,r1)
 ```
 
@@ -95,6 +97,7 @@ We find the accuracy for the data without scale is slightly greater than 50%, an
 ## Train data with scale
 ```{r}
 data.train = scale(wine[-1])
+par(mfrow = c(1, 2)) 
 r2 = K_means(data.train,k)
 plotcluster(data.train,r2)
 Accuracy = sum(r2 == wine[1])/length(r2)
@@ -112,6 +115,7 @@ data.train = data.matrix(iris[1:4]); k = 3; true_cat = iris[5]
 true_cat = as.numeric(factor(true_cat$Species, levels = sort(unique(true_cat$Species))))
 ```
 ```{r}
+par(mfrow = c(1, 2)) 
 r3 = K_means(data.train,k)
 plotcluster(data.train,r3)
 Accuracy = sum(r3 == true_cat)/length(r3)
@@ -122,6 +126,7 @@ print(paste("the accuracy of non-scale data is ", Accuracy))
 ## Train data with scale
 ```{r}
 data.train = scale(data.matrix(iris[1:4])) 
+par(mfrow = c(1, 2)) 
 r4 = K_means(data.train,k)
 plotcluster(data.train,r4)
 Accuracy = sum(r4 == true_cat)/length(r4)

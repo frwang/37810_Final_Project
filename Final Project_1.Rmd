@@ -8,13 +8,15 @@ output: pdf_document
 # Metropolis-Hastings
 ## 1. Algorithm and main function
 ### Algorithm 
-* Randomly generate the start value from a uniform distribution
-* Built the proposalfunction given in the problem, and generate a possible sample candidate
-* Adjust the acceptance probability and apply into comparision
-+ For the non symmetric distribution, we have $r = \frac{{P(\theta')}/{J(\theta')}}{{P(\theta)}/{J(\theta)}}$
-+ we compute the posterior and proposal probability, Posterior = $\frac{L(\phi')}{L(\phi)}$, Proposal = $\frac{L'(\phi)}{L'(\phi')}$
-+ We change the equation and multiple these two number and compare to a random number from a uniform distribution
-+ If it's larger add into the chain, otherwise use original value, and do the iterations
+1. Choose a starting value $\theta^{(0)}$
+2. At iteration t, compute the jumping distribution $J_t(\theta^{*}|\theta^{(t-1)})$
+3. Computing an acceptance ratio
+$$r=\frac{{p(\theta')}/{J(\theta')}}{{p(\theta)}/{J(\theta)}}$$
+Here we split into two part: 
+Posterior = $\frac{L(\phi')}{L(\phi)}$, Proposal =$\frac{L'(\phi)}{L'(\phi')}$  
+r = Posterior * Proposal  
+4. Accept $\theta^*$ as $\theta^{(t)}$ with probability min(r,1). If $\theta^*$ is not accepted, then $\theta^{(t)}=\theta^{(t-1)}$
+5. Repeat step 2-4 Iteration times to get samples, and then apply burn-in or thinning
 
 ### Main function
 ```{r}
@@ -64,8 +66,9 @@ In the histogram plot, I change the histogram from frequency to density and also
 
 ```{r, warning = FALSE}
 x = rbeta(iter, 6, 4)
-hist(x, freq = FALSE, main = "true beta")
-lines(density(chain))
+par(mfrow = c(1, 2))
+hist(x, main = "True beta")
+hist(chain, main = "Estimate beta")
 ks.test(chain[-(1:5000)], x)
 ```
 
